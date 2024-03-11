@@ -1,11 +1,8 @@
-import React, { useContext } from 'react';
-
-
-import { ThemeContext } from '../../ThemeContext';
+import React from 'react';
+import { useTheme } from '../../ThemeContext';
 
 const ThemeSwitcher = () => {
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  console.log(theme)
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <button onClick={toggleTheme}>

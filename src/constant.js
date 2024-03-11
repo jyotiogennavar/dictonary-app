@@ -18,6 +18,11 @@ export const FONT_FAMILY = {
   inconsolata : 'Inconsolata',
 };
 
+export const WEIGHTS = {
+  regular : '400',
+  bold: '700',
+}
+
 export const LIGHT_THEME = {
   text : COLORS[800],
   background : COLORS[100],
