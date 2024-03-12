@@ -52,6 +52,7 @@ const Wrapper = styled.div`
   input {
     border: none;
     background-color: ${(props) => props.theme.searchBackground};
+    color: ${(props) => props.theme.text};
     width: 100%;
     padding: 1rem;
     border-radius: 1rem;

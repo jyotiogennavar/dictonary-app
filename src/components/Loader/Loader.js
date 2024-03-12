@@ -29,10 +29,6 @@ function Loader() {
     return <div>Error: {error}</div>;
   }
 
-  if (!animationData) {
-    return <div>Loading...</div>;
-  }
-
   const defaultOptions = {
     loop: true,
     autoplay: true,

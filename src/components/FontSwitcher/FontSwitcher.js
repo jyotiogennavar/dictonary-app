@@ -22,12 +22,12 @@ const FontSwitcher = ({theme}) => {
 const DropDown = styled.select`
   border: none;
   padding: 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: ${(props) => props.theme.text};
   position: relative;
   background-color: ${(props) => props.theme.background};
-  overflow: auto;
 
+  cursor: pointer;
 `;
 
 const SanSerif = styled.option`

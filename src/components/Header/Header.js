@@ -54,8 +54,7 @@ const ThemeChanger = styled.div`
 `;
 
 const StyledMoon = styled(Moon)`
- color: ${({ toggleTheme }) =>
-    toggleTheme === "light" ? COLORS[600] : COLORS.purple};
+ color: ${(props) => props.theme.toggleBg};
 `;
 
 export default Header;

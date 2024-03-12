@@ -35,8 +35,8 @@ const ToggleSwitch = ({ onToggle }) => {
 
 const Wrapper = styled.button`
   display: block;
-  width: 2rem;
-  height: 1rem;
+  width: 1.8rem;
+  height: 0.9rem;
 
   border-radius: 1000px;
   border: none;
@@ -45,8 +45,7 @@ const Wrapper = styled.button`
   box-sizing: content-box;
   outline-offset: 4px;
 
-  background-color: ${({ toggleTheme }) =>
-    toggleTheme === "light" ? COLORS[600] : COLORS.purple};
+  background-color: ${(props) => props.theme.toggleBg};
 `;
 
 const Ball = styled(motion.span)`

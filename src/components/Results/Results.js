@@ -95,6 +95,7 @@ const Results = ({ theme }) => {
                   </WordMeaning>
                 </div>
               ))}
+              
           </div>
         ))
       )}
