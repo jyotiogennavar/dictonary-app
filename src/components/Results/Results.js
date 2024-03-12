@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Search from "../Search/Search";
-import { useFont } from "../../FontContext";
-
-import { COLORS, FONT_FAMILY, WEIGHTS } from "../../constant";
+import { useFont } from "../../context/FontContext";
+import { COLORS, WEIGHTS } from "../../constant";
 
 const Results = ({ theme }) => {
+  // State variables
   const [data, setData] = useState(null);
-  console.log(data)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Function to fetch word data from the API
   const fetchWordData = async (searchTerm) => {
     try {
       setLoading(true);
@@ -18,33 +18,53 @@ const Results = ({ theme }) => {
         `https://api.dictionaryapi.dev/api/v2/entries/en/${searchTerm}`
       );
       const jsonData = await response.json();
-      setData(jsonData);
-      setLoading(false);
+      if (response.ok) {
+        // If response is successful, set data and stop loading
+        setData(jsonData);
+      } else {
+        // If response is not successful, set error message
+        const errorMessage = jsonData?.message || "Sorry, we were unable to find your word";
+        setError(errorMessage);
+      }
     } catch (error) {
-      setError("Sorry, we were unable to find your word ");
-      setLoading(false);
+      // Handle network errors
+      setError("Sorry, we were unable to find your word");
+    } finally {
+      setLoading(false); // Stop loading regardless of success or failure
     }
   };
 
+  // Function to handle search
   const handleSearch = (searchTerm) => {
     fetchWordData(searchTerm);
   };
 
-  const { selectedFont } = useFont(); // Use useFont hook to get selectedFont
-
+  // Get selected font using custom hook
+  const { selectedFont } = useFont();
 
   return (
     <Wrapper theme={theme} selectedFont={selectedFont}>
+      {/* Search component */}
       <Search onSearch={handleSearch} />
 
+      {/* Loading message */}
       {loading && <p>Finding your Word!</p>}
-      {error && <p>{error}</p>}
 
-      {data &&
+      {/* Display error message if no data */}
+      {!loading && !data && error && (
+        <WordNotFound>
+          <h4>😞 No Definitions Found</h4>
+          <p>{error}</p>
+        </WordNotFound>
+      )}
+
+      {/* Display data if available */}
+      {!loading && data && data.length > 0 && (
         data.map((entry, index) => (
           <div key={index}>
+            {/* Display word */}
             <Word>{entry.word}</Word>
-            {/* Phonetics Handling */}
+            {/* Phonetics handling */}
             {entry.phonetics && entry.phonetics[0] && (
               <Phonetics>
                 <PhoneticsText>
@@ -52,59 +72,64 @@ const Results = ({ theme }) => {
                 </PhoneticsText>
                 {entry.phonetics[0].audio && (
                   <audio controls src={entry.phonetics[0].audio}></audio>
-                  // <AudioButton src={entry.phonetics[0].audio}></AudioButton>
                 )}
               </Phonetics>
             )}
-
+            {/* Meanings */}
             {entry.meanings &&
               entry.meanings.map((meaning, j) => (
                 <div key={j}>
                   <PartOfSpeech>{meaning.partOfSpeech}</PartOfSpeech>
-                
                   <WordMeaning>
-                  <p>Meaning</p>
-                          {meaning.definitions &&
-                    meaning.definitions.map((definition, k) => (
-                      <div key={k}>
-                        <li>{definition.definition}</li>
-                        {/* Check if definition.example exists before rendering */}
-                        {definition.example && <p>{definition.example}</p>}
-                      </div>
-                    ))}
+                    <p>Meaning</p>
+                    {/* Definitions */}
+                    {meaning.definitions &&
+                      meaning.definitions.map((definition, k) => (
+                        <div key={k}>
+                          <li>{definition.definition}</li>
+                          {/* Example */}
+                          {definition.example && <p>{definition.example}</p>}
+                        </div>
+                      ))}
                   </WordMeaning>
-            
                 </div>
               ))}
           </div>
-        ))}
+        ))
+      )}
     </Wrapper>
   );
 };
 
-const AudioButton = styled.audio`
- position: relative;
-        width: 100px; /* Adjust the size of the circle */
-        height: 100px; /* Adjust the size of the circle */
-        border-radius: 50%; /* Make it circular */
-        overflow: hidden;
-        background-color: #f0f0f0; /* Background color of the circle */
-        cursor: pointer;
+// Styled components
+const WordNotFound = styled.div`
+  width: 50%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+
+  text-align: center;
+  font-size: 1rem;
+  color: ${(props) => props.theme.text};
+
+  h4 {
+    font-weight: ${WEIGHTS.bold};
+  }
+
+  p {
+    color: ${COLORS[400]};
+  }
 `;
 
 const Wrapper = styled.div`
   padding-inline: 1rem;
   margin-inline: auto;
-  max-width: 50%;
 
   font-family: ${({ selectedFont }) => selectedFont};
-
-
   color: ${(props) => props.theme.text};
-
-  @media (max-width: 768px) { /* Adjust breakpoint according to your design */
-    max-width: 100%; /* Change max-width for viewport smaller than 768px */
-  }
 
   & > * {
     margin-block: 0;
@@ -114,6 +139,7 @@ const Wrapper = styled.div`
     margin-block-start: 1rem;
   }
 `;
+
 const Word = styled.h2`
   font-weight: ${WEIGHTS.bold};
   font-size: 64px;
@@ -127,13 +153,14 @@ const Phonetics = styled.div`
 
 const PhoneticsText = styled.p`
   color: ${COLORS.purple};
-  font-size: 24px;
+  font-size: 1.5rem;
 `;
 
 const PartOfSpeech = styled.h3`
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: ${WEIGHTS.bold};
   font-style: italic;
+  margin-top: 1rem;
 `;
 
 const WordMeaning = styled.ul`
@@ -141,8 +168,8 @@ const WordMeaning = styled.ul`
   padding-inline-start: 2rem;
 
   li {
-    color: ${COLORS[600]};
-    margin-bottom: .5rem;
+    color: ${(props) => props.theme.text};
+    margin-bottom: 0.5rem;
   }
 
   li::marker {

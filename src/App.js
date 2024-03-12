@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { LIGHT_THEME, DARK_THEME, FONT_FAMILY } from "./constant";
 
-import { FontProvider } from "./FontContext";
+import { FontProvider } from "./context/FontContext";
 import Results from "./components/Results/Results";
 import Header from "./components/Header/Header";
 
@@ -19,8 +19,10 @@ function App() {
     <ThemeProvider theme={currentTheme}>
       <FontProvider>
         <Body>
-          <Header toggleTheme={toggleTheme} />
-          <Results />
+          <Margins>
+            <Header toggleTheme={toggleTheme} />
+            <Results />
+          </Margins>
         </Body>
       </FontProvider>
     </ThemeProvider>
@@ -33,4 +35,13 @@ const Body = styled.div`
   min-height: 100vh;
 `;
 
+const Margins = styled.div`
+  margin: 0 auto;
+
+  max-width: 50%;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`;
 export default App;

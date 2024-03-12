@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { COLORS, FONT_FAMILY } from "../../constant";
-import { useFont } from "../../FontContext";
+import {FONT_FAMILY } from "../../constant";
+import { useFont } from "../../context/FontContext";
 
-const FontSwitcher = () => {
+const FontSwitcher = ({theme}) => {
   const { selectedFont, changeFont } = useFont();
 
   const handleFontChange = (event) => {
@@ -11,7 +11,7 @@ const FontSwitcher = () => {
   };
 
   return (
-    <DropDown onChange={handleFontChange} value={selectedFont}>
+    <DropDown theme={theme} onChange={handleFontChange} value={selectedFont}>
       <SanSerif value="inter">San Serif</SanSerif>
       <Serif value="lora">Serif</Serif>
       <Mono value="inconsolata">Mono</Mono>
@@ -21,11 +21,13 @@ const FontSwitcher = () => {
 
 const DropDown = styled.select`
   border: none;
-  appearance: ${COLORS.purple}; 
   padding: 0.5rem;
   font-size: 1.2rem;
   color: ${(props) => props.theme.text};
   position: relative;
+  background-color: ${(props) => props.theme.background};
+  overflow: auto;
+
 `;
 
 const SanSerif = styled.option`
