@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Search from "../Search/Search";
 import { useFont } from "../../context/FontContext";
 import { COLORS, WEIGHTS } from "../../constant";
+import Loader from "../Loader/Loader";
 
 const Results = ({ theme }) => {
   // State variables
@@ -48,7 +49,7 @@ const Results = ({ theme }) => {
       <Search onSearch={handleSearch} />
 
       {/* Loading message */}
-      {loading && <p>Finding your Word!</p>}
+      {loading && <Loader/>}
 
       {/* Display error message if no data */}
       {!loading && !data && error && (

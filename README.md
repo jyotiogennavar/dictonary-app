@@ -75,6 +75,7 @@ The project utilizes the DictionaryAPI to fetch word data based on user searches
 - Styled Components: Used for styling React components with dynamic props and themes.
 - Framer Motion: Used for creating smooth animations, particularly for the toggle switch component.
 - Lucide-React: Provides icons for the application interface, such as the moon icon for the dark mode toggle.
+- LottieFiles : Used for loading animation
 
 ### Theme and Styling
 The application supports both light and dark themes for better user experience. Theme switching is achieved using the ThemeProvider context provided by the styled-components library. The theme colors are defined in a separate constants file and dynamically applied to styled components based on the selected theme.
