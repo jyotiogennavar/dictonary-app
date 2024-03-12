@@ -9,7 +9,7 @@ export const COLORS = {
  800: 'hsl(0, 0%, 2%)',
 
  purple : 'hsl(274, 82%, 60%)',
- red : 'hsl(0°, 100%, 66%)',
+ red : 'hsl(0, 100%, 66%)',
 };
 
 export const FONT_FAMILY = {

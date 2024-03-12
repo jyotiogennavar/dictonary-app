@@ -5,12 +5,14 @@ import { TextSearch } from "lucide-react";
 
 const Search = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState("");
 
   const handleSearch = () => {
     if (searchTerm.trim() !== "") {
       onSearch(searchTerm);
+      setError(""); // Clear any previous errors
     } else {
-      // Handle error or empty search term
+      setError("Whoops, can’t be empty…");
     }
   };
 
@@ -21,7 +23,8 @@ const Search = ({ onSearch }) => {
   };
 
   return (
-    <Wrapper>
+    <>
+     <Wrapper>
       <input
         type="text"
         value={searchTerm}
@@ -29,10 +32,15 @@ const Search = ({ onSearch }) => {
         onKeyDown={handleKeyDown}
         placeholder="Enter a word"
       />
+      
       <button onClick={handleSearch}>
         <TextSearch color={COLORS.purple} size={22} strokeWidth={3} />
       </button>
+      
     </Wrapper>
+    {error && <ErrorText>{error}</ErrorText>}
+    </>
+   
   );
 };
 
@@ -68,6 +76,12 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
   }
+`;
+
+const ErrorText = styled.p`
+  color: ${COLORS.red};
+  
+  font-size: 1rem;
 `;
 
 export default Search;
