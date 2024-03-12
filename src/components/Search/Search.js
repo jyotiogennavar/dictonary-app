@@ -43,7 +43,7 @@ const Wrapper = styled.div`
 
   input {
     border: none;
-    background-color: ${COLORS[300]};
+    background-color: ${(props) => props.theme.searchBackground};
     width: 100%;
     padding: 1rem;
     border-radius: 1rem;
@@ -60,7 +60,7 @@ const Wrapper = styled.div`
     margin: 1rem;
     border: none;
     border-radius: 50%;
-    background-color: ${COLORS[300]};
+    background-color: ${(props) => props.theme.searchBackground};
     padding: 1rem;
     cursor: pointer;
 

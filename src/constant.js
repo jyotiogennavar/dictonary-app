@@ -26,9 +26,11 @@ export const WEIGHTS = {
 export const LIGHT_THEME = {
   text : COLORS[800],
   background : COLORS[100],
+  searchBackground: COLORS[300]
 }
 
 export const DARK_THEME = {
   text : COLORS[100],
   background : COLORS[800],
+  searchBackground: COLORS[600]
 }
